@@ -43,12 +43,47 @@ class ModelTrainer:
                 "Linear Regression": LinearRegression(),
                 "K-Neighbors Regressor": KNeighborsRegressor(),
                 "XGBRegressor": XGBRegressor(),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
+                #"CatBoosting Regressor": CatBoostRegressor(verbose=False),
                 "AdaBoost Regressor": AdaBoostRegressor(),
             }
+
+            params = {
+                "Decision Tree": {
+                    "criterion": ["squared_error", "friedman_mse", "absolute_error"],
+                    "max_depth": [None, 5, 10, 20]
+                },
+
+                "Random Forest": {
+                    "n_estimators": [50, 100],
+                    "max_depth": [None, 10, 20]
+                },
+
+                "Gradient Boosting": {
+                    "learning_rate": [0.05, 0.1],
+                    "n_estimators": [50, 100]
+                },
+
+                "Linear Regression": {},
+
+                "K-Neighbors Regressor": {
+                    "n_neighbors": [3, 5, 7],
+                    "weights": ["uniform", "distance"]
+                },
+
+                "XGBRegressor": {
+                    "learning_rate": [0.05, 0.1],
+                    "n_estimators": [50, 100]
+                },
+
+                "AdaBoost Regressor": {
+                    "learning_rate": [0.05, 0.1],
+                    "n_estimators": [50, 100]
+                }
+            }
+
             
             model_report:dict=evaluate_models(X_train=X_train,y_train=y_train,X_test=X_test,y_test=y_test,
-                                             models=models)
+                                             models=models,param=params)
             # To get best model score from dictionary
             best_model_score = max(sorted(model_report.values()))
 
